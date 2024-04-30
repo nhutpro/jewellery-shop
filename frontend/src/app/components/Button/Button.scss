@@ -1,0 +1,10 @@
+button {
+    padding: 0.5rem 2rem;
+    background-color: black;
+    color: #fff;
+    border-radius: 16px;
+    cursor: pointer;
+    &:hover {
+        opacity: 60%;
+    }
+}

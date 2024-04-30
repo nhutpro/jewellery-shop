@@ -1,0 +1,26 @@
+.functional-icons {
+    display: flex;
+    gap: 24px;
+    .functional-icons__icon-container {
+       
+        .functional-icons__icon {
+            padding: 4px;
+            width: 40px;
+            height: 40px;
+        }
+    }
+    .functional-icons__icon-container:hover {
+       cursor: pointer;
+      
+       border-radius: 50%;
+       transform: rotate(360deg);
+        transition: transform 1s;
+       .functional-icons__icon {
+        border: solid 2px #000;
+        border-radius: 50%;
+        
+    }
+      
+    }
+   
+}

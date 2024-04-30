@@ -1,0 +1,25 @@
+.hot-item {
+    height: 300px;
+    background: #fff;
+    width: 50%;
+    border-radius: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p {
+        position: relative;
+        margin-left: 1rem;
+        font-size: 1.5rem;
+    }
+    .hot-item__image-container {
+        height: 100%;
+        display: flex;
+        .hot-item__image_box {
+            height: 100%;
+            img {
+                height: 100%;
+                object-fit: fill;
+            }
+        }
+    }
+}

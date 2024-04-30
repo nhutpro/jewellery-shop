@@ -1,0 +1,14 @@
+.input {
+    display:flex;
+    padding: 0 1rem;
+    border-bottom: 2px solid;
+    .icon {
+        margin-right: 1rem;
+    }
+    input {
+        outline:none;
+    }
+    &:focus-within {
+      border-bottom: 2px solid #ccc;
+    }
+}

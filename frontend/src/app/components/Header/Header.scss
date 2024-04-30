@@ -1,0 +1,27 @@
+header {
+    padding: 1rem 0rem;
+    display: flex;
+    gap: 2rem;
+    .header__logo {
+        margin-right: 1rem;
+        align-items: center;
+    }
+    .header__nav {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+    .header__search-bar {
+        width: 40%;
+        flex-grow: 0.5;
+        margin-left: 10rem;
+        display:flex;
+        align-items: center;
+        padding-right: 2rem;
+    }
+    .header__functional-icons {
+        display: flex;
+        align-items: center;
+        
+    }
+}

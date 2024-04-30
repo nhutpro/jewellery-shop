@@ -1,95 +1,76 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Button from "./components/Button/Button";
+import HotItem from "./components/HotItem/HotItem";
+import Product from "./components/Product";
+import "./page.scss";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+    <div className="home">
+      <div className="home_image-section">
+        <div className="home_image-text">
           <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
+            find clothes <br /> that matches <br /> your style
           </h2>
           <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
+            Browse through our diverse range of meticulously crafted garments,
+            designed <br /> to bring out your individuality and cater to your
+            sense of style
           </p>
-        </a>
+          <div className="home_image-button">
+            <Button text="Shop Now" />
+          </div>
+        </div>
       </div>
-    </main>
+      <div className="home__new-arrivals">
+        <h2 className="new-arrivals__title">new arrivals </h2>
+        <div className="grid grid-cols-4 gap-4">
+          <div>
+            <Product
+              name="Điện Thoại"
+              starNumber={4.2}
+              price={300000}
+              oldPrice={40000000}
+              imageSource="https://cdn.pnj.io/images/detailed/116/gl0000y001844-lac-tay-vang-18k-pnj-1.png"
+            />
+          </div>
+          <div>
+            <Product
+              name="Dien thoai"
+              starNumber={1.2}
+              price={300000}
+              oldPrice={40000000}
+              imageSource="https://cdn.pnj.io/images/detailed/116/gl0000y001844-lac-tay-vang-18k-pnj-2.png"
+            />
+          </div>
+          <div>
+            <Product
+              name="Dien thoai"
+              starNumber={1.2}
+              price={300000}
+              oldPrice={40000000}
+              imageSource="https://cdn.pnj.io/images/detailed/116/gl0000y001844-lac-tay-vang-18k-pnj-2.png"
+            />
+          </div>
+          <div>
+            <Product
+              name="Dien thoai"
+              starNumber={1.2}
+              price={300000}
+              oldPrice={40000000}
+              imageSource="https://cdn.pnj.io/images/detailed/116/gl0000y001844-lac-tay-vang-18k-pnj-2.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="product__hot-product">
+        <p className="hot-product__title"> hot products</p>
+        <div className="hot-product__list">
+        <HotItem title="Dây Chuyền Vàng" imageSource="https://cdn.pnj.io/images/detailed/116/gl0000y001844-lac-tay-vang-18k-pnj-1.png"/>
+        <HotItem title="Dây Chuyền Vàng" imageSource="https://cdn.pnj.io/images/detailed/116/gl0000y001844-lac-tay-vang-18k-pnj-1.png"/>
+        <HotItem title="Dây Chuyền Vàng" imageSource="https://cdn.pnj.io/images/detailed/116/gl0000y001844-lac-tay-vang-18k-pnj-1.png"/>
+        <HotItem title="Dây Chuyền Vàng" imageSource="https://cdn.pnj.io/images/detailed/116/gl0000y001844-lac-tay-vang-18k-pnj-1.png"/>
+        </div>
+      </div>
+    </div>
   );
 }
