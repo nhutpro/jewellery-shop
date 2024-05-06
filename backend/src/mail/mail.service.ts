@@ -10,13 +10,13 @@ export class MailService {
       secure: false,
     });
   }
-  async userRegister() {
+  async userRegister(hash: string) {
     await this.transporter.sendMail({
       from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
       to: 'bar@example.com, baz@example.com', // list of receivers
       subject: 'Hello ✔', // Subject line
-      text: 'Hello world?', // plain text body
-      html: '<b>Hello world?</b>', // html body
+      text: hash, // plain text body
+      html: `<b>${hash}</b>`, // html body
     });
   }
 }

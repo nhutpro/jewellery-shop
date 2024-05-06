@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/database/typeorm-config.service';
 import { MailModule } from './mail/mail.module';
+import { SessionModule } from './session/session.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { MailModule } from './mail/mail.module';
     HealthCheckModule,
     AuthModule,
     UserModule,
-    MailModule
+    MailModule,
+    SessionModule
   ],
   controllers: [AppController],
   providers: [AppService],
