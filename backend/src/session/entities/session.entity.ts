@@ -11,9 +11,9 @@ import {
 @Entity('SESSION')
 export class Session {
   @PrimaryGeneratedColumn('uuid', {
-    name: 'ID',
+    name: 'SESSION_ID',
   })
-  id: string;
+  sessionId: string;
 
   @ManyToOne(() => User)
   @JoinColumn({

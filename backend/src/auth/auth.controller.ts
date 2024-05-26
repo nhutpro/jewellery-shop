@@ -5,11 +5,13 @@ import {
   HttpStatus,
   Inject,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthRegisterDTO } from './dto/auth-register.dto';
 import { AuthService } from './auth.service';
 import { AuthConfirmEmailDTO } from './dto/auth-confirm-email.dto';
 import { AuthLoginEmailDTO } from './dto/auth-login-email.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -31,5 +33,11 @@ export class AuthController {
   @Post('login/email')
   async loginByEmail(@Body() authLoginEmailDTO: AuthLoginEmailDTO) {
     return this.authService.loginByEmail(authLoginEmailDTO);
+  }
+
+  @Post('refresh-token')
+  @UseGuards(AuthGuard('jwt-refresh'))
+  async refreshToken() {
+
   }
 }

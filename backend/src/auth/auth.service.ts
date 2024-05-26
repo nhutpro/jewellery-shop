@@ -4,6 +4,7 @@ import {
   Inject,
   Injectable,
   Logger,
+  UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
@@ -22,6 +23,7 @@ import * as crypto from 'crypto';
 import { SessionService } from 'src/session/session.service';
 import { Session } from 'src/session/entities/session.entity';
 import { promises } from 'dns';
+import { JwtRefreshPayloadType } from './auth.types';
 
 Injectable();
 export class AuthService {
@@ -68,7 +70,7 @@ export class AuthService {
     } catch (error) {
       this.logger.error(
         'Error when confirm email for new user with message error: ' +
-          error.message,
+        error.message,
       );
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -159,7 +161,7 @@ export class AuthService {
     const { token, refreshToken, tokenExpires } = await this.getTokensData({
       userId: user.userId,
       roleId: user.roleId,
-      sessionId: session.id,
+      sessionId: session.sessionId,
       hash,
     });
 
@@ -170,10 +172,50 @@ export class AuthService {
       user,
     };
   }
+  async refreshToken(data: JwtRefreshPayloadType) {
+    const session: Session = await this.sessionService.findById(data.sessionId);
+
+    if (!session) {
+      throw new UnauthorizedException();
+    }
+
+    if (session.hash != data.hash)
+      throw new UnauthorizedException();
+
+    const user: User = await this.userService.findOneById(session.userId as any)
+
+    if (!!user || !!user.roleId) {
+      throw new UnauthorizedException;
+    }
+
+
+    const hash = crypto
+      .createHash('sha256')
+      .update(randomStringGenerator())
+      .digest('hex');
+
+    await this.sessionService.updateById(session.sessionId, {
+      hash: hash
+    });
+
+    const { token, refreshToken, tokenExpires } = await this.getTokensData({
+      userId: user.userId,
+      roleId: user.roleId,
+      sessionId: session.sessionId,
+      hash,
+    });
+
+    return {
+      token,
+      refreshToken,
+      tokenExpires
+    }
+
+  }
   async getTokensData(data: {
     userId: User['userId'];
     roleId: User['roleId'];
-    sessionId: Session['id'];
+    sessionId: Session['sessionId'];
     hash: Session['hash'];
   }) {
     const tokenExpires = this.configService.get(CONFIG.JWT_EXPIRATION_AUTH);
