@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Inject,
   Post,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { AuthRegisterDTO } from './dto/auth-register.dto';
@@ -37,7 +38,7 @@ export class AuthController {
 
   @Post('refresh-token')
   @UseGuards(AuthGuard('jwt-refresh'))
-  async refreshToken() {
-
+  async refreshToken(@Request() request) {
+    return this.authService.refreshToken(request.user);
   }
 }

@@ -46,6 +46,14 @@ export class AuthService {
       statusId: Status.Inactive,
       roleId: Role.User,
     };
+    const user = await this.userService.findOne({
+      where: { email: authRegisterDTO.email },
+    });
+
+    if (!!user) {
+      throw new BadRequestException('User is exist with this email');
+    }
+
     const newUser = await this.userService.createUser(createUserPayload);
 
     const hash = await this.jwtService.signAsync(
@@ -57,7 +65,15 @@ export class AuthService {
         expiresIn: this.configService.get(CONFIG.JWT_EXPIRATION_CONFIRM_EMAIL),
       },
     );
-    await this.mailService.userRegister(hash);
+
+    const activeMailPayload = {
+      fullName: newUser.firstName + ' ' + newUser.lastName,
+      email: newUser.email,
+      activeLink:
+        this.configService.getOrThrow(CONFIG.FRONTEND_HOST) + '/active/' + hash,
+    };
+
+    await this.mailService.sendActiveEmail(activeMailPayload);
   }
 
   async confirmEmail(hash: string) {
@@ -88,9 +104,7 @@ export class AuthService {
         },
       });
     }
-    const user = await this.userService.findOne({
-      where: { userId },
-    });
+    const user = await this.userService.findOneById(userId);
 
     if (!user) {
       this.logger.error('User not Found');
@@ -154,7 +168,7 @@ export class AuthService {
       .digest('hex');
 
     const session = await this.sessionService.create({
-      userId: user,
+      user: user,
       hash,
     });
 
@@ -179,13 +193,14 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    if (session.hash != data.hash)
+    if (session.hash != data.hash) throw new UnauthorizedException();
+
+    const user: User = await this.userService.findOneById(
+      session.user.userId as any,
+    );
+
+    if (!user) {
       throw new UnauthorizedException();
-
-    const user: User = await this.userService.findOneById(session.userId as any)
-
-    if (!!user || !!user.roleId) {
-      throw new UnauthorizedException;
     }
 
 
@@ -195,7 +210,7 @@ export class AuthService {
       .digest('hex');
 
     await this.sessionService.updateById(session.sessionId, {
-      hash: hash
+      hash: hash,
     });
 
     const { token, refreshToken, tokenExpires } = await this.getTokensData({

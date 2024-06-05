@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Session } from './entities/session.entity';
 import { Repository } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class SessionService {
@@ -15,7 +16,13 @@ export class SessionService {
   }
 
   async findById(sessionId: string): Promise<Session> {
-    return this.sessionRepository.findOneBy({ sessionId: sessionId });
+    return this.sessionRepository.findOne({
+      where: {
+        sessionId: sessionId
+      }, relations: {
+        user: true
+      }
+    });
   }
 
   async updateById(sessionId: Session['sessionId'], payload: Partial<Session>) {

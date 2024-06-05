@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Transporter, createTransport } from 'nodemailer';
+import * as fs from 'fs'
+import Handlebars from 'handlebars';
+import { join, dirname } from 'path'
+import { ActiveEmailPayLoad } from './constants';
 
 @Injectable()
 export class MailService {
@@ -10,13 +14,22 @@ export class MailService {
       secure: false,
     });
   }
-  async userRegister(hash: string) {
+  async sendActiveEmail({ fullName, activeLink, email }: ActiveEmailPayLoad) {
+    const template = fs.readFileSync(
+      join(__dirname, '/template/register.handlebars'),
+      { encoding: 'utf-8' },
+    );
+    const html = Handlebars.compile(template, {
+      strict: true,
+    })({
+      fullName,
+      activeLink,
+    });
     await this.transporter.sendMail({
-      from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
-      to: 'bar@example.com, baz@example.com', // list of receivers
-      subject: 'Hello ✔', // Subject line
-      text: hash, // plain text body
-      html: `<b>${hash}</b>`, // html body
+      from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>',
+      to: email,
+      subject: 'Xác Thực Tài Khoản',
+      html: html,
     });
   }
 }

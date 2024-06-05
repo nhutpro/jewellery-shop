@@ -1,4 +1,4 @@
-import { UnauthorizedException } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 import { Passport } from "passport";
@@ -7,7 +7,9 @@ import { CONFIG, ConfigType } from "src/config/config.constants";
 import { JwtRefreshPayloadType } from "../auth.types";
 import { OrNeverType } from "src/utils/types";
 
-class JWTStrategy extends PassportStrategy(Strategy, 'jwt') {
+
+@Injectable()
+export class JWTStrategy extends PassportStrategy(Strategy, 'jwt') {
     constructor(configService: ConfigService<ConfigType>) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

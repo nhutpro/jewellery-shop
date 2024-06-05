@@ -29,7 +29,7 @@ export class UserService {
   async updateUser(payload) {
     this.userRepository.save(payload);
   }
-  findOne(query) {
+  async findOne(query) {
     return this.userRepository.findOne(query);
   }
 

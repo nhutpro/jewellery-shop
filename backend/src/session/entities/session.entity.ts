@@ -19,7 +19,7 @@ export class Session {
   @JoinColumn({
     name: 'USER_ID',
   })
-  userId: User;
+  user: User;
 
   @Column({
     name: 'HASH',
